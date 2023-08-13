@@ -8,13 +8,14 @@ check to 0 for the input is 0 so we exit
 */
 
 func hammingWeight(num uint32) int {
-    var res uint32 = 0
-    for {
-        if num == 0 {
-            break
-        }
-        res  += num %2
-        num = num >> 1
-    }
-    return int(res)
+	var res uint32 = 0
+	for {
+		if num == 0 {
+			break
+		}
+		res += num % 2
+
+		num = num >> 1
+	}
+	return int(res)
 }
