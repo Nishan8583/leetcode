@@ -44,3 +44,33 @@ func TestTraversals(t *testing.T) {
 	is.True(has_path(input, "a", "e"))
 
 }
+
+func TestFindConnected(t *testing.T) {
+	is := require.New(t)
+	input := map[string][]string{
+		"3": {},
+		"4": {"6"},
+		"6": {"4", "5", "7", "8"},
+		"8": {"6"},
+		"7": {"6"},
+		"5": {"6"},
+		"1": {"2"},
+		"2": {"1"},
+	}
+
+	is.Equal(uint(3), get_component_count(input))
+	is.Equal(uint(5), get_component_max_count(input))
+}
+
+func TestGrid(t *testing.T) {
+	is := require.New(t)
+	grid := [][]string{
+		{"W", "L", "W", "W", "W"},
+		{"W", "L", "W", "L", "W"},
+		{"W", "W", "W", "L", "W"},
+		{"L", "W", "L", "L", "W"},
+		{"L", "L", "W", "W", "W"},
+	}
+	is.Equal(3, count_island(grid))
+
+}

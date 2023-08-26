@@ -3,14 +3,14 @@ package main
 import "fmt"
 
 func main() {
-	graph := map[string][]string{
-		"a": {"b", "c"},
-		"b": {"d"},
-		"c": {"e"},
-		"d": {"f"},
-		"e": {},
-		"f": {},
+
+	edges := [][]string{
+		{"w", "x"},
+		{"x", "y"},
+		{"z", "y"},
+		{"z", "v"},
+		{"w", "v"},
 	}
-	fmt.Println(bfs_traversal(graph, "a"))
-	fmt.Println(dfs_traversal(graph, "a"))
+	al := convert_edge_to_list(edges)
+	fmt.Println(shortest_path(al, "w", "z"))
 }
