@@ -72,5 +72,6 @@ func TestGrid(t *testing.T) {
 		{"L", "L", "W", "W", "W"},
 	}
 	is.Equal(3, count_island(grid))
+	is.Equal(2, minimum_island(grid))
 
 }

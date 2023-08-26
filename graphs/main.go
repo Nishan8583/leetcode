@@ -4,13 +4,13 @@ import "fmt"
 
 func main() {
 
-	edges := [][]string{
-		{"w", "x"},
-		{"x", "y"},
-		{"z", "y"},
-		{"z", "v"},
-		{"w", "v"},
+	grid := [][]string{
+		{"W", "L", "W", "W", "W"},
+		{"W", "L", "W", "L", "W"},
+		{"W", "W", "W", "L", "W"},
+		{"L", "W", "L", "L", "W"},
+		{"L", "L", "W", "W", "W"},
 	}
-	al := convert_edge_to_list(edges)
-	fmt.Println(shortest_path(al, "w", "z"))
+	fmt.Println(minimum_island(grid))
+
 }

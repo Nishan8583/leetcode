@@ -317,7 +317,6 @@ func count_island(grid [][]string) int {
 
 func explore_island(grid [][]string, row int, col int, visited map[string]struct{}) bool {
 
-	fmt.Printf("Row= %d column %d total row %d total column %d\n", row, col, len(grid), len(grid[0]))
 	// check if out of bound row
 	if row < 0 || row >= len(grid) {
 		return false
@@ -344,4 +343,56 @@ func explore_island(grid [][]string, row int, col int, visited map[string]struct
 	explore_island(grid, row, col-1, visited) // explore left
 
 	return true
+}
+
+func minimum_island(grid [][]string) int {
+	min_count := 10000
+	visited := map[string]struct{}{}
+
+	// loop through each row
+	for row := 0; row < len(grid); row++ {
+
+		// loop through each columns
+		for col := 0; col < len(grid[0]); col++ {
+
+			temp := min_island_explore(grid, row, col, visited)
+			if temp != 0 && temp < min_count {
+				min_count = temp
+			}
+		}
+	}
+
+	return min_count
+}
+
+func min_island_explore(grid [][]string, row int, col int, visited map[string]struct{}) int {
+
+	// check if out of bound row
+	if row < 0 || row >= len(grid) {
+		return 0
+	}
+
+	if col < 0 || col > len(grid[0]) {
+		return 0
+	}
+
+	pos := fmt.Sprintf("%d,%d", row, col)
+	if _, ok := visited[pos]; ok {
+		return 0
+	}
+
+	// its water
+	if grid[row][col] == "W" {
+		return 0
+	}
+
+	visited[pos] = struct{}{}
+	// if we are here, it means, it was a land.
+	v1 := min_island_explore(grid, row-1, col, visited) // explore up
+	v2 := min_island_explore(grid, row+1, col, visited) // explore down
+	v3 := min_island_explore(grid, row, col+1, visited) // explore right
+	v4 := min_island_explore(grid, row, col-1, visited) // explore left
+
+	v := 1 + v1 + v2 + v3 + v4
+	return v
 }
