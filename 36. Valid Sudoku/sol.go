@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 /*
@@ -51,10 +50,6 @@ func check_if_valid_sudoku(row []byte) bool {
 		if v == '.' {
 			continue
 		}
-		value, _ := strconv.Atoi(string(v))
-		if value < 1 || value > 9 {
-			return false
-		}
 		if _, ok := seen_numbers[v]; ok {
 			return false
 		}
@@ -74,13 +69,7 @@ func check_if_col_valid(board [][]byte, row_index int, col_index int) bool {
 		if board[i][col_index] == '.' {
 			continue
 		}
-		v, err := strconv.Atoi(string(board[i][col_index]))
-		if err != nil {
-			return false
-		}
-		if v < 1 || v > 9 {
-			return false
-		}
+
 		col_values[board[i][col_index]] = empty{}
 	}
 	return true
@@ -113,13 +102,6 @@ func check_if_box_is_valid(grid [][]byte, row, col int, visited map[[2]int]empty
 			}
 
 			checked_values[grid[r][c]] = empty{}
-			v, err := strconv.Atoi(string(grid[r][c]))
-			if err != nil {
-				return false
-			}
-			if v < 1 || v > 9 {
-				return false
-			}
 
 		}
 	}
