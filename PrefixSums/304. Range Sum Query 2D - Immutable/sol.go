@@ -3,40 +3,55 @@ package main
 import "fmt"
 
 type NumMatrix struct {
-	matrix [][]int
+	sumMatrix [][]int
 }
 
 func Constructor(matrix [][]int) NumMatrix {
-	return NumMatrix{
-		matrix: matrix,
+	// create a sum matrix, that has extra padding to account for the out of bound issue
+	rows := len(matrix) + 1
+	cols := len(matrix[0]) + 1
+	sumMatrx := make([][]int, rows)
+	for i := range sumMatrx {
+		sumMatrx[i] = make([]int, cols, cols)
+	}
+	// add 0 in the first row and col
+
+	for row_index, rows := range matrix {
+		row_sum := 0
+
+		for col_index, col_val := range rows {
+
+			row_sum = row_sum + col_val
+			fmt.Printf("pos=%d,%d matrix value=%d pos=%d,%d matrix_value=%d\n", row_index, col_index, matrix[row_index][col_index], row_index, col_index, sumMatrx[row_index][col_index])
+			sum := row_sum + sumMatrx[row_index][col_index+1] // col +1 gives one more value to the right, because first values are always zero
+			sumMatrx[row_index+1][col_index+1] = sum
+		}
 	}
 
+	fmt.Println("[")
+	for _, row := range sumMatrx {
+		fmt.Printf("	%v\n", row)
+	}
+	fmt.Println("[")
+
+	return NumMatrix{
+		sumMatrix: sumMatrx,
+	}
 }
 
 func (this *NumMatrix) SumRegion(row1 int, col1 int, row2 int, col2 int) int {
+	fmt.Println(row1, row2, col1, col2)
 
-	total := 0
-	fmt.Println("added", total)
-	total += helper(this.matrix, row1, col1, row2, col2)
-	return total
-}
+	// increase row and column sicne we are gonna get from sum matrix, corresponding value will be in one higher position
+	row1, row2, col1, col2 = row1+1, row2+1, col1+1, col2+1
 
-func helper(matrix [][]int, row, column, max_row, max_col int) int {
-	sum := 0
-	if row > max_row && column > max_col {
-		//fmt.Println("end reached at", row, column, max_row, max_col)
-		return 0
-	}
+	fmt.Println(row1, row2, col1, col2)
+	bottom := this.sumMatrix[row2][col2]
+	above := this.sumMatrix[row1-1][col2]
+	left := this.sumMatrix[row2][col1-1]
+	topLeft := this.sumMatrix[row1-1][col1-1] // get the whole box sum
 
-	if row > max_row {
-		sum = helper(matrix, row, column+1, max_row, max_col)
-	} else if column > max_col {
-		sum = helper(matrix, row+1, column, max_row, max_col)
-	} else {
-		fmt.Printf("\nAdding row=%d column=%d value=%d \n", row, column, matrix[row][column])
-		sum = matrix[row][column] + helper(matrix, row+1, column, max_row, max_col) + helper(matrix, row, column+1, max_row, max_col)
-	}
-	return sum
+	return bottom - above - left + topLeft
 }
 
 /**
