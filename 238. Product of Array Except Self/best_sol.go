@@ -9,7 +9,9 @@
 // [1,2,3,4], initially finay_result  =[], final_result[0]=1
 // Second explaination, so basically when we loop first, we are trying to get product of all the prefixes
 // on second loop we are trying to get product of all postfixes
-//
+package main
+
+import "fmt"
 
 func productExceptSelf(nums []int) []int {
 	final_result := make([]int, len(nums))
@@ -20,14 +22,22 @@ func productExceptSelf(nums []int) []int {
 		final_result[i] = nums[i-1] * prefix_product
 		prefix_product = nums[i-1] * prefix_product
 	}
+	// final result becomes [1,1,2,6]
 
+	fmt.Println("prefix", final_result)
 	postfix_prodcut := 1
 	for i := len(nums) - 1; i >= 0; i-- {
 
 		final_result[i] = final_result[i] * postfix_prodcut
+		fmt.Println("multiply", final_result[i], postfix_prodcut)
 		postfix_prodcut = postfix_prodcut * nums[i]
 	}
+	// final result becomes
 
 	return final_result
 
+}
+
+func main() {
+	fmt.Println(productExceptSelf([]int{1, 2, 3, 4}))
 }

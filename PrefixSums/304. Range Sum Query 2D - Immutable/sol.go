@@ -11,6 +11,8 @@ func Constructor(matrix [][]int) NumMatrix {
 	rows := len(matrix) + 1
 	cols := len(matrix[0]) + 1
 	sumMatrx := make([][]int, rows)
+
+	// initialize the sum maatrix
 	for i := range sumMatrx {
 		sumMatrx[i] = make([]int, cols, cols)
 	}
