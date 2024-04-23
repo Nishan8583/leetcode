@@ -4,7 +4,7 @@
 // left and right pointer, left at first, and right at last
 // caculate area with above conditions, update max product if greater
 // if value at left is higher, no point in changing it, so decrease r
-// if value at right is higher, increase r
+// if value at right is higher, increase l
 // keep on looping
 // question: https://leetcode.com/problems/container-with-most-water/
 // explaination: https://www.youtube.com/watch?v=UuiTKBwPgAo&ab_channel=NeetCode
