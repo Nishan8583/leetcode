@@ -3,6 +3,8 @@
 // get max value first, initially current min and max is 1,
 // if 0 both is equals to 1, hold the most minimum and maximim and respective variable
 // then out of max and result, update result with the highest
+package main
+
 func maxProduct(nums []int) int {
 	result := max(nums...)
 	for _, v := range nums {
