@@ -297,7 +297,7 @@ else explore row-1, row +1, col -1 and col +1 which is basically moving up, down
 on each visit we mark these new as visited, and if we encounter visited we dont go futher
 amazingly simple explaination by https://youtu.be/tWVWeAqZ0WU?si=rkqQbFMJJWdnNCxO
 */
-func count_island(grid [][]string) int {
+func numIslands(grid [][]string) int {
 	count := 0
 	visited := map[string]struct{}{}
 
@@ -327,7 +327,7 @@ func explore_island(grid [][]string, row int, col int, visited map[string]struct
 	}
 
 	// its water
-	if grid[row][col] == "W" {
+	if grid[row][col] == "0" {
 		return false
 	}
 
