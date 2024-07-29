@@ -9,23 +9,27 @@ Return the ordering of courses you should take to finish all courses. If there a
 
 Solution:
 Basically we need to check if there is acyclic node, Course schedule I
-Ex; [[1,0]] 1 requires 0 to be completed, thats all 0->1
-Ex: [[1,0],[0,1]] 1 reuqires 0 to be completed but 0 also requires 1 to be completed, so it is a acyclic node. 0->1->0
+Ex; [[1,0]] 1 requires 0 to be completed, thats all 1->0, in this its oppposite than I
+Ex: [[1,0],[0,1]] 1 reuqires 0 to be completed but 0 also requires 1 to be completed, so it is a acyclic node. 1->0->1
 
-we create a map of prerequisites courses to course {0:[1]}, this is our adjancency adj_list
+
+we create a map of course prerequisites courses {1:[0]}, this is our adjancency adj_list
 After that We loop through our adj_list, put the current visited node in a temp path, and check if a node has been visited twice
-for example: {0:[1]}, 0 will have only been visited twice, but for {0:[1],1:[0]}, 0 will have been twice visited and in this case, we return false
+for example: {1:[0]}, 1 will have only been visited twice, but for {0:[1],1:[0]}, 0 will have been twice visited and in this case, we return false
 Then check the neighbour as well, DFS.
 
 
 After all this, we use our adj adj_list
 For ex: [[1,0],[2,0],[3,1],[3,2]]
 {
-	0: [1,2],
-	3: [1,2],
+	1:[0],
+	2:[0],
+	3:[1,2],
 }
 
 go through each course, visit dependencies first, if the node has no dependencies add it
+first we can see 0 has no prerequisites, add it [0],then add 1 [0,1], 2s prerequisites has already been added, so add 2 [0,1,2], for 3, we can see 1 and 2 alreay added, so thats been added
+final: [0,1,2,3]
 */
 
 package main
