@@ -63,12 +63,22 @@ func (s *Stack) pop() *TreeNode {
 	return v
 }
 
+/*
+| 6	|	| 6 |
+| 2 |	| 2	|	-> 2 is the final ancestor
+	    | 4	|
+*/
+
 // 2,6
 // 4,2,6
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 
 	pStack := Stack{}
 	qStack := Stack{}
+
+	// do a DFS for both the values starting from root
+	// and if we find the vale, we push all the values in stacl
+
 	dfsSearch(root, p, &pStack)
 	dfsSearch(root, q, &qStack)
 
@@ -95,17 +105,23 @@ func dfsSearch(node, v *TreeNode, stack *Stack) bool {
 		return false
 	}
 
+	// somewhere down the line we found the value we wanted, so push this in stack
+	// and also return true, since we found the value, so the caller knows that
+	// the node it traversed is the right path to find the value
 	if node.Val == v.Val {
 		stack.push(node)
 		return true
 	}
+
 	ok := false
+	// we reach here, if we have not found the value, so since its a BST search accordingly
 	if v.Val > node.Val {
 		ok = dfsSearch(node.Right, v, stack)
 	} else {
 		ok = dfsSearch(node.Left, v, stack)
 	}
 
+	// if true, means we found the value from this path, so append to stack
 	if ok {
 		stack.push(node)
 		return true

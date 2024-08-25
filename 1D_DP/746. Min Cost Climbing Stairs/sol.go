@@ -48,6 +48,8 @@ https://www.youtube.com/watch?v=ktmzAZWkEZ0
 */
 package main
 
+import "fmt"
+
 func minCostClimbingStairs(cost []int) int {
 
 	cost = append(cost, 0)
@@ -57,20 +59,38 @@ func minCostClimbingStairs(cost []int) int {
 	// Same for 10
 	// Which one among 0th and 1th is smallest
 	// return that
-
+	// Since one element can jump only 1 or 2 steps
+	// we caculate from last, the min value it takes to reach the end
+	//One jump 35 two jump 15 at 1
+	// i = len(cost)-3 because, each step max jump is 2
+	// possible jump is cost[i] + cost[i+1] i.e. 10+15 = 25, or cost[i+2] 2 jump 15+20 = 35
+	// update i with the min value
+	// [10 15 20 0]
+	// One jump 25 two jump 30 at 0
+	// [25 15 20 0]
 	for i := len(cost) - 3; i >= 0; i-- {
 		oneJump := cost[i] + cost[i+1]
 		twoJump := cost[i] + cost[i+2]
+		fmt.Printf("One jump %d two jump %d at %d\n", oneJump, twoJump, i)
 
+		// Update i to the min value it takes to reach the end
 		if oneJump < twoJump {
 			cost[i] = oneJump
 		} else {
 			cost[i] = twoJump
 		}
+		fmt.Println(cost)
 	}
 
 	if cost[0] < cost[1] {
 		return cost[0]
 	}
 	return cost[1]
+}
+
+func main() {
+
+	cost := []int{10, 15, 20}
+
+	fmt.Println(minCostClimbingStairs(cost))
 }
