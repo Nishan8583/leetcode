@@ -1,15 +1,18 @@
-use std::collections::HashMap;
-impl Solution {
-    pub fn contains_duplicate(nums: Vec<i32>) -> bool {
-        let mut values: HashMap<i32,i32> = HashMap::new();
+use std::collections::HashSet;
 
-        for i in nums.iter() {
-            if let Some(v) = values.get(&i) {
+impl Solution{
+
+    pub fn contains_duplicate(nums: Vec<i32>) -> bool {
+        let mut set = HashSet::new();
+
+        for num in nums {
+            if set.contains(&num) {
                 return true;
             }
-            values.insert(*i,1);
+            set.insert(num);
         }
 
-        return false;
+        false
     }
+
 }
