@@ -1,0 +1,121 @@
+package main
+
+import (
+	"container/heap"
+	"fmt"
+)
+
+type Tweet struct {
+	time    int // Timestamp when the tweet was posted
+	tweetId int
+	userId  int
+}
+
+type Twitter struct {
+	time       int
+	tweets     []Tweet                  // Global list of tweets
+	followList map[int]map[int]struct{} // UserID -> set of followee IDs
+}
+
+// Constructor initializes the Twitter object
+func Constructor() Twitter {
+	return Twitter{
+		time:       0,
+		tweets:     []Tweet{},
+		followList: make(map[int]map[int]struct{}),
+	}
+}
+
+// PostTweet adds a new tweet for the user
+func (this *Twitter) PostTweet(userId int, tweetId int) {
+	this.time++
+	this.tweets = append(this.tweets, Tweet{time: this.time, tweetId: tweetId, userId: userId})
+}
+
+// GetNewsFeed retrieves the 10 most recent tweet IDs in the user's news feed
+func (this *Twitter) GetNewsFeed(userId int) []int {
+	// Use a priority queue to get the 10 most recent tweets
+	pq := &TweetHeap{}
+	heap.Init(pq)
+
+	// Collect all tweets from the user and their followees
+	for i := len(this.tweets) - 1; i >= 0; i-- {
+		tweet := this.tweets[i]
+		if tweet.userId == userId || this.isFollowing(userId, tweet.userId) {
+			heap.Push(pq, tweet)
+			if pq.Len() > 10 {
+				heap.Pop(pq) // Keep only the top 10 recent tweets
+			}
+		}
+	}
+
+	// Extract tweets from the heap
+	result := make([]int, 0, 10)
+	for pq.Len() > 0 {
+		result = append([]int{heap.Pop(pq).(Tweet).tweetId}, result...)
+	}
+	return result
+}
+
+// Follow makes followerId follow followeeId
+func (this *Twitter) Follow(followerId int, followeeId int) {
+	if _, ok := this.followList[followerId]; !ok {
+		this.followList[followerId] = make(map[int]struct{})
+	}
+	this.followList[followerId][followeeId] = struct{}{}
+}
+
+// Unfollow makes followerId unfollow followeeId
+func (this *Twitter) Unfollow(followerId int, followeeId int) {
+	if followees, ok := this.followList[followerId]; ok {
+		delete(followees, followeeId)
+	}
+}
+
+// Helper function to check if a user is following another user
+func (this *Twitter) isFollowing(followerId, followeeId int) bool {
+	if followeeId == followerId {
+		return true // A user is always following themselves
+	}
+	_, ok := this.followList[followerId][followeeId]
+	return ok
+}
+
+// Priority Queue implementation for Tweets
+type TweetHeap []Tweet
+
+func (h TweetHeap) Len() int           { return len(h) }
+func (h TweetHeap) Less(i, j int) bool { return h[i].time < h[j].time } // Min-heap based on time
+func (h TweetHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *TweetHeap) Push(x interface{}) {
+	*h = append(*h, x.(Tweet))
+}
+
+func (h *TweetHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	item := old[n-1]
+	*h = old[:n-1]
+	return item
+}
+
+func test2() {
+	twitter := Constructor()
+	twitter.PostTweet(1, 5)   // User 1 posts a new tweet with id = 10.
+	twitter.PostTweet(1, 3)   // User 2 posts a new tweet with id = 20.
+	twitter.PostTweet(1, 101) // User 2 posts a new tweet with id = 20.
+	twitter.PostTweet(1, 13)  // User 2 posts a new tweet with id = 20.
+	twitter.PostTweet(1, 10)  // User 2 posts a new tweet with id = 20.
+	twitter.PostTweet(1, 94)  // User 2 posts a new tweet with id = 20.
+	twitter.PostTweet(1, 505) // User 2 posts a new tweet with id = 20.
+	twitter.PostTweet(1, 333) // User 2 posts a new tweet with id = 20.
+	twitter.PostTweet(1, 22)  // User 2 posts a new tweet with id = 20.
+	fmt.Printf(
+		"Feed for 1 before following %+v\n", twitter.GetNewsFeed(1),
+	) // User 1's news feed should only contain their own tweets -> [10].
+}
+
+func main() {
+	test2()
+}
