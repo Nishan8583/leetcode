@@ -36,3 +36,9 @@ word1Vec.push_back(w.to_string()); // push_back
 
 
 ```
+
+4. Iterate in reverse
+
+```rust
+for (i,v) in vector.iter().enumerate().rev() {}
+```
