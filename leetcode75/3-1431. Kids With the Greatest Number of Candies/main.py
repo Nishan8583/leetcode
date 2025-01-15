@@ -6,7 +6,7 @@
 
 
 class Solution:
-    def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
+    def kidsWithCandies(self, candies: list[int], extraCandies: int) -> list[bool]:
         greatest = max(candies)
 
         result = [False] * len(candies)

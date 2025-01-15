@@ -28,6 +28,7 @@ class Solution(object):
             return len(t) % len(s) == 0 and s * (len(t) // len(s)) == t
 
         result = ""
+        # perhaps if we do it in reverse we will take less time ?
         for i in range(1, min(len(str1), len(str2)) + 1):
             candidate = str1[:i]
             if divides(candidate, str1) and divides(candidate, str2):
@@ -39,4 +40,3 @@ solution = Solution()
 print(solution.gcdOfStrings("ABCABC", "ABC"))  # Output: "ABC"
 print(solution.gcdOfStrings("ABABAB", "ABAB"))  # Output: "AB"
 print(solution.gcdOfStrings("LEET", "CODE"))  # Output: ""
-

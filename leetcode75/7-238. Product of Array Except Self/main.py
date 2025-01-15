@@ -5,6 +5,8 @@ class Solution:
         postfix_product = 1
 
         # [1,2,3,4]
+        # each value will in product_array will have the product of
+        # all values in left
         for i in range(1, len(nums)):
             product = prefix_product * nums[i - 1]
             product_array[i] = product

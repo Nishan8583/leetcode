@@ -55,6 +55,9 @@ class Solution:
         highest = [0] * len(nums)
         low = nums[0]
         i = 0
+
+        # each index in the lowest array will have the lowest value till that point
+        # from left to right
         while i < len(nums):
             v = nums[i]
             if v < low:
@@ -64,6 +67,7 @@ class Solution:
 
         i = len(nums) - 1
         high = nums[len(nums) - 1]
+        # Each index in the highest array will have the highest value till that index from right to left
         while i >= 0:
             v = nums[i]
             if v > high:
@@ -73,6 +77,8 @@ class Solution:
         # print(f"lowest={lowest},highest={highest}")
         i = 1
 
+        # so for each value in nums, check if corresponing lowest value is lower than that nums[i]
+        # and corresponing highest value is greater than nums[i], if so condition is matched
         while i < len(nums):
             v = nums[i]
             if lowest[i] < v and v < highest[i]:

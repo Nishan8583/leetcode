@@ -14,3 +14,8 @@ s.pop() # gets the last value
 
 6. .strip() removes prefix and suffix spaces, .split(" ") creates list.
 7. for i in reversed(l) to reverse from back
+8. Loop in reverse order, without reverse, go from high value to low value.
+
+```python
+for i in range(len(t)-1,-1,-1)
+```
